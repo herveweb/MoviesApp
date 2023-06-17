@@ -21,7 +21,6 @@ class MovieRepositoryModule {
     @Provides
     internal fun provideMovieRepository(
         movieRemoteDataSource: MovieRemoteDataSource,
-        scope: CoroutineScope
-    ): MovieRepository = MovieRepository(movieRemoteDataSource, scope)
+    ): MovieRepository = MovieRepository(movieRemoteDataSource)
 
 }

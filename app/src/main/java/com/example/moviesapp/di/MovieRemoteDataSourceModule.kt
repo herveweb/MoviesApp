@@ -21,6 +21,6 @@ class MovieRemoteDataSourceModule {
     @Provides
     internal fun provideMovieRemoteDataSource(
         movieApi: MovieApi,
-    ): MovieRemoteDataSource = MovieRemoteDataSource(movieApi, Dispatchers.Default)
+    ): MovieRemoteDataSource = MovieRemoteDataSource(movieApi)
 
 }

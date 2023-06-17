@@ -1,5 +1,6 @@
 package com.example.moviesapp.datasources
 
+import ApiResult
 import com.example.moviesapp.models.Movie
 import com.example.moviesapp.network.MovieApi
 import kotlinx.coroutines.CoroutineDispatcher
@@ -11,15 +12,10 @@ import kotlinx.coroutines.withContext
  */
 class MovieRemoteDataSource(
     private val movieApi: MovieApi,
-    private val ioDispatcher: CoroutineDispatcher
 ) {
-    suspend fun getMoviesList(page: Int): List<Movie> =
-        withContext(ioDispatcher) {
-            movieApi.getMovies(page)
-        }
+    suspend fun getMoviesList(page: Int): ApiResult<List<Movie>> =
+        movieApi.getMovies(page)
 
-    suspend fun getMovieDetails(movieId: Int): Movie =
-        withContext(ioDispatcher) {
-            movieApi.getMovieDetails(movieId)
-        }
+    suspend fun getMovieDetails(movieId: Int): ApiResult<Movie?> =
+        movieApi.getMovieDetails(movieId)
 }

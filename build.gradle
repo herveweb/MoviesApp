@@ -10,14 +10,23 @@ buildscript {
         coroutines_android_version = "1.6.0"
         espresso_core_version = "3.4.0"
         glide_version = "4.13.0"
-        hilt_android_version = "2.38.1"
-        junit_version = "4.13.2"
+        hilt_android_version = "2.40.3"
+        //junit_version = "4.13.2"
+        jupiter_version = "5.8.2"
+        kotest_version = "5.2.0"
         lifecycle_version = "2.4.1"
         moshi_version = "1.13.0"
+        mockk_version = "1.12.2"
         retrofit_version = "2.9.0"
+
+
+        kotest_assertions_version = "5.0.1"
+        kotlinx_coroutines_version = "1.5.2-native-mt"
     }
     dependencies {
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.40'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.40.3'
+        classpath ("org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4")
     }
 }
 

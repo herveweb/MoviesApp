@@ -1,8 +1,9 @@
 package com.example.moviesapp.viewmodels
 
+import ApiResult
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.moviesapp.uistates.MovieDetailsUiState
+import com.example.moviesapp.models.Movie
 import com.example.moviesapp.usecases.GetMovieDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,13 +25,23 @@ class MovieDetailsViewModel @Inject constructor(val getMovieDetailsUseCase: GetM
 
     suspend fun getMovieDetails(movieId: Int) {
         viewModelScope.launch {
-            _uiState.update {
-                it.copy(isLoadingMovie = true)
-            }
-            val movie = getMovieDetailsUseCase(movieId)
-            _uiState.update {
-                it.copy(isLoadingMovie = false, movie = movie)
+            _uiState.update { it.copy(isLoadingMovie = true) }
+            when(val result = getMovieDetailsUseCase(movieId)){
+                is ApiResult.Success -> {
+                    result.data?.let {movie ->
+                        _uiState.update {
+                            it.copy(isLoadingMovie = false, movie = movie)
+                        }
+                    }
+                }
+                is ApiResult.Failure -> _uiState.update { it.copy(errorMessage = result.errorMessage) }
+                else -> {}
             }
         }
     }
 }
+data class MovieDetailsUiState(
+    val movie: Movie = Movie(),
+    val isLoadingMovie: Boolean = false,
+    val errorMessage: String? = ""
+)

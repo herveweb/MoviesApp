@@ -1,8 +1,14 @@
 package com.example.moviesapp.repositories
 
+import ApiResult
+import android.R
+import android.app.AlertDialog
 import com.example.moviesapp.datasources.MovieRemoteDataSource
 import com.example.moviesapp.models.Movie
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -13,29 +19,11 @@ import kotlinx.coroutines.withContext
  */
 class MovieRepository(
     private val movieRemoteDataSource: MovieRemoteDataSource,
-    private val scope: CoroutineScope,
 ) {
-    private val moviesMutex = Mutex()
-    private var movies: List<Movie> = emptyList()
-    private lateinit var movieDetails: Movie
 
-    suspend fun getMovies(page: Int): List<Movie> {
-        return withContext(scope.coroutineContext) {
-            movieRemoteDataSource.getMoviesList(page).also { networkResult ->
-                moviesMutex.withLock {
-                    movies = networkResult
-                }
-            }
-        }
-    }
+    suspend fun getMovies(page: Int): ApiResult<List<Movie>> =
+        movieRemoteDataSource.getMoviesList(page)
 
-    suspend fun getMovieDetails(movieId: Int): Movie{
-        return withContext(scope.coroutineContext) {
-            movieRemoteDataSource.getMovieDetails(movieId).also { networkResult ->
-                moviesMutex.withLock {
-                    movieDetails = networkResult
-                }
-            }
-        }
-    }
+    suspend fun getMovieDetails(movieId: Int): ApiResult<Movie?> =
+        movieRemoteDataSource.getMovieDetails(movieId)
 }

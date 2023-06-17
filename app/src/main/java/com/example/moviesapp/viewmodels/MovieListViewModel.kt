@@ -1,8 +1,9 @@
 package com.example.moviesapp.viewmodels
 
+import ApiResult
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.moviesapp.uistates.MovieListUiState
+import com.example.moviesapp.models.Movie
 import com.example.moviesapp.usecases.GetMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,14 +29,29 @@ class MovieListViewModel @Inject constructor(val getMoviesUseCase: GetMoviesUseC
     }
 
     suspend fun getMovies() {
-        _uiState.update {
-            it.copy(isLoadingMovies = true)
+        _uiState.update { it.copy(isLoadingMovies = true) }
+        when(val result: ApiResult<List<Movie>> = getMoviesUseCase(_uiState.value.page)){
+            is ApiResult.Success -> updateMovies(result.data)
+            is ApiResult.Failure -> _uiState.update { it.copy(errorMessage = result.errorMessage) }
+            else -> {}
         }
-        val movies = getMoviesUseCase(_uiState.value.page)
-        if (!movies.isNullOrEmpty()) {
+    }
+
+    private fun updateMovies(movies: List<Movie>){
+        if (!movies. isNullOrEmpty()) {
             _uiState.update {
                 it.copy(isLoadingMovies = false, movies = movies, page = it.page + 1)
             }
         }
     }
+
+    fun clearErrorMessages(){
+        _uiState.update { it.copy(errorMessage = "") }
+    }
 }
+data class MovieListUiState(
+    val movies: List<Movie> = listOf(),
+    val page: Int = 1,
+    val isLoadingMovies: Boolean = false,
+    val errorMessage: String? = ""
+)

@@ -20,8 +20,7 @@ class GetMovieDetailsUseCaseModule {
     @Singleton
     @Provides
     internal fun provideGetMovieDetailsUseCase(
-        movieRepository: MovieRepository,
-        dispatcher: CoroutineDispatcher
-    ): GetMovieDetailsUseCase = GetMovieDetailsUseCase(movieRepository, dispatcher)
+        movieRepository: MovieRepository
+    ): GetMovieDetailsUseCase = GetMovieDetailsUseCase(movieRepository)
 
 }

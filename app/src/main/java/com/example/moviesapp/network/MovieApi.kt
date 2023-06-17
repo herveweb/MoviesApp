@@ -1,5 +1,6 @@
 package com.example.moviesapp.network
 
+import ApiResult
 import com.example.moviesapp.models.Movie
 
 /**
@@ -7,6 +8,6 @@ import com.example.moviesapp.models.Movie
  * herveweb.com
  */
 interface MovieApi {
-    suspend fun getMovies(page: Int): List<Movie>
-    suspend fun getMovieDetails(movieId: Int): Movie
+    suspend fun getMovies(page: Int): ApiResult<List<Movie>>
+    suspend fun getMovieDetails(movieId: Int): ApiResult<Movie?>
 }

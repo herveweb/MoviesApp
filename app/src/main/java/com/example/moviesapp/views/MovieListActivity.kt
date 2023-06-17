@@ -2,6 +2,7 @@ package com.example.moviesapp.views
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -46,7 +47,10 @@ class MovieListActivity : AppCompatActivity() {
             viewModel.uiState
                 .collect {
                     binding.progressBar.isVisible = it.isLoadingMovies
-                    if(!it.isLoadingMovies && it.movies.isNotEmpty()) {
+                    if(!it.isLoadingMovies && !it.errorMessage.isNullOrEmpty()){
+                        Toast.makeText(applicationContext, it.errorMessage, Toast.LENGTH_LONG)
+                        viewModel.clearErrorMessages()
+                    }else if(!it.isLoadingMovies && it.movies.isNotEmpty()) {
                         movieList.addAll(it.movies)
                         movieListAdapter.notifyDataSetChanged()
                     }
