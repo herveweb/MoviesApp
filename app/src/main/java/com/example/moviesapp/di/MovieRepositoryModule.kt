@@ -9,10 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Singleton
 
-/**
- * Created by Herve Tchoufong
- * herveweb.com
- */
+
 @Module
 @InstallIn(SingletonComponent::class)
 class MovieRepositoryModule {

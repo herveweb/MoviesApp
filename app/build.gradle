@@ -4,17 +4,22 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
+
 android {
-    compileSdk 31
+    namespace 'com.example.moviesapp'
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.moviesapp"
-        minSdk 21
-        targetSdk 31
+        minSdk 24
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
 
     buildTypes {
@@ -23,9 +28,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    buildFeatures {
-        viewBinding true
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -33,56 +35,91 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    testOptions {
-        unitTests.all {
-            useJUnitPlatform()
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.3.2'
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
 }
 
 dependencies {
+    //Compose
+    implementation "androidx.activity:activity-compose:$compose_version"
+    implementation platform('androidx.compose:compose-bom:2022.10.00')
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.ui:ui-graphics'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.compose.material3:material3'
+    implementation "androidx.activity:activity-compose:$compose_version"
+    androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
     implementation "androidx.core:core-ktx:$androidx_core_version"
-    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
-    implementation "com.google.android.material:material:$android_material_version"
-    implementation "androidx.constraintlayout:constraintlayout:$androidx_constraintlayout_version"
-    implementation "androidx.fragment:fragment-ktx:$androidx_fragment_version"
-    implementation "com.google.dagger:hilt-android:$hilt_android_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation platform("org.jetbrains.kotlin:kotlin-bom:$androidx_core_version")
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.1"
+
+    // Glide
+    implementation "com.github.bumptech.glide:compose:1.0.0-alpha.1"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-compose:$nav_version"
+
+    // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_android_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_android_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coroutines_version"
 
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_android_version"
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_android_version"
+    // Hilt for Robolectric tests.
+    testImplementation "com.google.dagger:hilt-android-testing:$hilt_android_version"
+    kaptTest "com.google.dagger:hilt-android-compiler:$hilt_android_version"
+    // Hilt for instrumented tests.
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_android_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_android_version"
+
+    // Moshi
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
     kaptTest "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
+
+    // Retrofit
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+
+    // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
 
-    kapt "com.google.dagger:hilt-compiler:$hilt_android_version"
-//    testImplementation "junit:junit:$junit_version"
-//    androidTestImplementation "androidx.test.ext:junit:$android_test_junit_version"
-//    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
-
-
-    testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiter_version"
-    testImplementation "org.junit.jupiter:junit-jupiter-params:$jupiter_version"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiter_version"
-
-    // For Robolectric tests.
-    testImplementation "com.google.dagger:hilt-android-testing:$hilt_android_version"
-    kaptTest "com.google.dagger:hilt-android-compiler:$hilt_android_version"
-    // For instrumented tests.
-    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_android_version"
-    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_android_version"
-//
-
+    // Kotest
     testImplementation "io.kotest:kotest-assertions-core:$kotest_assertions_version"
     testImplementation "io.kotest:kotest-runner-junit5:$kotest_version"
+
+    // Mockk
     testImplementation "io.mockk:mockk:$mockk_version"
-    testImplementation "org.junit.jupiter:junit-jupiter:$jupiter_version"
+
+    // Junit
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
     testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiter_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$jupiter_version"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coroutines_version"
+    testImplementation "org.junit.jupiter:junit-jupiter:$jupiter_version"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiter_version"
     testImplementation 'io.kotlintest:kotlintest-runner-junit5:3.3.2'
+
 }

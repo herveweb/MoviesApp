@@ -1,21 +1,17 @@
 package com.example.moviesapp.datasources
 
-import ApiResult
-import com.example.moviesapp.models.Movie
-import com.example.moviesapp.network.MovieApi
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
+import com.example.moviesapp.apis.NetworkService
+import com.example.moviesapp.models.remote.RemoteMovieList
+import com.example.moviesapp.models.remote.RemoteMovie
+import retrofit2.Response
 
-/**
- * Created by Herve Tchoufong
- * herveweb.com
- */
+
 class MovieRemoteDataSource(
-    private val movieApi: MovieApi,
+    private val networkService: NetworkService,
 ) {
-    suspend fun getMoviesList(page: Int): ApiResult<List<Movie>> =
-        movieApi.getMovies(page)
+    suspend fun getMoviesList(page: Int): Response<RemoteMovieList> =
+        networkService.getMovies(page)
 
-    suspend fun getMovieDetails(movieId: Int): ApiResult<Movie?> =
-        movieApi.getMovieDetails(movieId)
+    suspend fun getMovieDetails(movieId: String): Response<RemoteMovie> =
+        networkService.getMovieDetails(movieId)
 }
