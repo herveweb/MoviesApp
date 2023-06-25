@@ -1,8 +1,8 @@
-package com.example.moviesapp.apis.movieapi
+package com.example.moviesapp.api.movieapi
 
 import com.example.moviesapp.models.remote.RemoteMovieList
 import com.example.moviesapp.models.remote.RemoteMovie
-import com.example.moviesapp.apis.NetworkService
+import com.example.moviesapp.api.NetworkService
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

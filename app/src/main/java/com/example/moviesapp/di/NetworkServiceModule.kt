@@ -1,6 +1,6 @@
 package com.example.moviesapp.di
 
-import com.example.moviesapp.apis.NetworkService
+import com.example.moviesapp.api.NetworkService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

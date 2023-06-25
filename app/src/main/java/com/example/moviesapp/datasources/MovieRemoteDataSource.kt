@@ -1,6 +1,6 @@
 package com.example.moviesapp.datasources
 
-import com.example.moviesapp.apis.NetworkService
+import com.example.moviesapp.api.NetworkService
 import com.example.moviesapp.models.remote.RemoteMovieList
 import com.example.moviesapp.models.remote.RemoteMovie
 import retrofit2.Response

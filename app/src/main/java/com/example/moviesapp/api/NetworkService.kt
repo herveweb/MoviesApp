@@ -1,8 +1,8 @@
-package com.example.moviesapp.apis
+package com.example.moviesapp.api
 
 import com.example.moviesapp.models.remote.RemoteMovieList
 import com.example.moviesapp.models.remote.RemoteMovie
-import com.example.moviesapp.apis.movieapi.MovieApi
+import com.example.moviesapp.api.movieapi.MovieApi
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
